@@ -1,106 +1,105 @@
 
 # MyGrep - Mini grep Implementation
 
-## 📄 Overview
-This project is a custom implementation of the basic `grep` command called **`mygrep.sh`**.  
-It supports searching for a string in a file with useful options like showing line numbers, inverting matches, counting matches, and displaying filenames.
+[🔽 اذهب مباشرة إلى قسم التفكير 🧠](#-نظرة-على-التنفيذ)
 
----
+## 📄 مقدمة
+`mygrep.sh` هو سكربت بسيط لمحاكاة بعض وظائف أمر `grep` المعروف في لينكس. يتيح البحث عن سلسلة نصية داخل ملف مع دعم بعض الخيارات المفيدة مثل عرض أرقام الأسطر، عكس النتائج، عدّ عدد النتائج، أو عرض اسم الملف عند وجود تطابق.
 
-## 🚀 How to Run
+## 🚀 كيفية التشغيل
+أولاً، تأكد أن السكربت قابل للتنفيذ:
 
-First, make sure the script is executable:
 ```bash
 chmod +x mygrep.sh
 ```
 
-Then run it using:
+ثم يمكنك تشغيله عبر:
+
 ```bash
-./mygrep.sh [options] "search_string" filename
+./mygrep.sh [الخيارات] "نص_البحث" اسم_الملف
 ```
 
----
+## ⚙️ الخيارات المدعومة
+تم استخدام `getopts` للتعامل مع الخيارات بطريقة مرنة ومنظمة.
 
-## ⚙️ Options (Using `getopts`)
-The script uses **`getopts`** to handle command-line options cleanly and flexibly.
+| الخيار | الوصف |
+|:------:|:------|
+| `-n`   | عرض أرقام الأسطر بجانب الأسطر المطابقة. |
+| `-v`   | عكس البحث (عرض الأسطر التي **لا** تحتوي على نص البحث). |
+| `-c`   | عدّ وعرض عدد الأسطر المطابقة فقط. |
+| `-l`   | عرض اسم الملف فقط إذا تم العثور على تطابق. |
+| `--help` | عرض رسالة المساعدة مع تفاصيل الاستخدام. |
 
-Supported options:
-| Option | Description |
-|:------:|:------------|
-| `-n`   | Show line numbers alongside matching lines. |
-| `-v`   | Invert the match (show lines **that do NOT match** the search string). |
-| `-c`   | Count the number of matching lines and display the count only. |
-| `-l`   | Print the filename if at least one match is found. |
-| `--help` | Display a detailed help message showing usage information. |
+## 🧠 نظرة على التنفيذ
+السكربت يعتمد على تقسيم واضح للمهام، حيث يتم التعامل مع كل مرحلة (التحقق من المعطيات، قراءة الملف، معالجة النتائج) بشكل منفصل ومنظم عبر أقسام واضحة داخله.
 
----
+تم التعامل مع تحليل الخيارات باستخدام `getopts`، مما يسمح بمرونة في تمرير الخيارات المختلفة مع الحفاظ على بساطة الاستخدام.
 
-## 🧠 Reflective Section
-- **Handling Arguments and Options**  
-  The script uses **`getopts`** to handle various command-line options like `-n`, `-v`, `-c`, and `-l`. The `getopts` loop parses these options and sets appropriate flags. Once all options are parsed, the script then processes the arguments for the search string and the filename, ensuring proper validation is performed. Invalid or missing arguments prompt an error and display the help message.
+بعد معالجة الخيارات، يتم نقل الوسائط المتبقية (`shift`) بحيث يمكن التعامل مع نص البحث واسم الملف مباشرة.
 
-- **Supporting Regex or `-i/-c/-l` Options**  
-  If I were to extend this script to support **regular expressions (regex)** or the **`-i` (case-insensitive)**, **`-c` (count matches)**, and **`-l` (print filenames)** options, the overall structure would change slightly. Regex would require adding functionality to handle pattern matching beyond simple substring matching, which might involve using tools like `sed` or `grep` for more advanced pattern recognition. For `-i`, we could modify the `search_in_line` function to ignore case sensitivity when comparing strings. The `-c` and `-l` options could be supported by adding counters and conditionals to print counts or filenames when needed.
+أثناء قراءة الملف، يتم فحص كل سطر على حدة لمعرفة إذا ما كان يحتوي على نص البحث (أو لا يحتوي عليه في حالة خيار `-v`)، ويتم اتخاذ الإجراء المناسب بناءً على الخيارات المفعلة (`-n`, `-v`, `-c`, `-l`).
 
-- **Most Difficult Part**  
-  The most challenging part of implementing this script was handling **`getopts`**. It's crucial to ensure that each option works as expected in combination with others, and managing the flags for each option can get tricky. Moreover, dealing with shifting arguments correctly and ensuring the script works smoothly when multiple options are provided in various combinations required careful attention to detail.
+### 🧩 أكثر جزء كان معقد
+أكثر جزء استغرق وقت وجهد كان **التعامل مع `getopts`** وربطه مع باقي أجزاء السكربت بشكل صحيح.  
+كان التحدي الأساسي هو ضمان أن جميع الخيارات تعمل مع بعضها بدون تعارض، وأن يتم تمرير نص البحث واسم الملف بطريقة صحيحة بعد إنهاء قراءة الخيارات.  
+كذلك، كان ربط كل الـ Sections ببعضها، بحيث يتكاملوا مع بعض بسلاسة (من مرحلة استقبال المعطيات إلى مرحلة عرض النتائج)، يحتاج تركيز ودقة في التفاصيل.
 
----
+## 📸 أمثلة على الاستخدام
 
-## 📸 Example Usage
+🔹 بحث أساسي عن كلمة (بشكل غير حساس لحالة الأحرف):
 
-🔹 Basic search (case-insensitive):
 ```bash
 ./mygrep.sh hello testfile.txt
 ```
 
-🔹 Show line numbers with matches:
+🔹 عرض أرقام الأسطر مع النتائج:
+
 ```bash
 ./mygrep.sh -n hello testfile.txt
 ```
 
-🔹 Invert match and show line numbers:
+🔹 عكس البحث مع عرض أرقام الأسطر:
+
 ```bash
 ./mygrep.sh -vn hello testfile.txt
-# OR
-./mygrep.sh -nv hello testfile.txt
 ```
 
-🔹 Invert match only:
+🔹 عكس النتائج فقط:
+
 ```bash
 ./mygrep.sh -v hello testfile.txt
 ```
 
-🔹 Count number of matches:
+🔹 عدّ عدد الأسطر المطابقة:
+
 ```bash
 ./mygrep.sh -c hello testfile.txt
 ```
 
-🔹 Print only filename if matches found:
+🔹 عرض اسم الملف فقط في حال وجود تطابق:
+
 ```bash
 ./mygrep.sh -l hello testfile.txt
 ```
 
-🔹 Show help message:
+🔹 عرض رسالة المساعدة:
+
 ```bash
 ./mygrep.sh --help
 ```
 
----
+## 📂 هيكلية الملفات
 
-## 📂 Folder Structure
 ```
 .
-├── mygrep.sh                # Main Script
-├── testfile.txt              # File for Testing
-├── Screenshot_Of_Outputs.png # Test Evidence
-└── README.md                 # This Documentation
+├── mygrep.sh                # السكربت الرئيسي
+├── testfile.txt              # ملف للاختبار
+├── Screenshot_Of_Outputs.png # لقطات شاشة توضح النتائج
+└── README.md                 # هذا الملف التوثيقي
 ```
 
----
-
-## 📢 Notes
-- The search is **case-insensitive**.
-- The script validates arguments and shows proper errors if something is missing.
-- The output mimics standard `grep` behavior as much as possible.
+## 📢 ملاحظات إضافية
+- البحث يتم بطريقة **غير حساسة لحالة الأحرف**.
+- السكربت يتحقق من صحة المعطيات و يعرض رسائل خطأ مناسبة إذا كان هناك نقص أو خطأ.
+- يحاكي سلوك `grep` القياسي قدر الإمكان مع الحفاظ على البساطة.
 
