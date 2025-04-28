@@ -1,105 +1,106 @@
 
 # MyGrep - Mini grep Implementation
 
-[🔽 اذهب مباشرة إلى قسم التفكير 🧠](#-نظرة-على-التنفيذ)
+📄 **Overview**  
+This project is a custom lightweight version of the `grep` command called **mygrep.sh**.  
+It allows searching for a string in a file with options such as showing line numbers, inverting matches, counting matches, and displaying filenames.
 
-## 📄 مقدمة
-`mygrep.sh` هو سكربت بسيط لمحاكاة بعض وظائف أمر `grep` المعروف في لينكس. يتيح البحث عن سلسلة نصية داخل ملف مع دعم بعض الخيارات المفيدة مثل عرض أرقام الأسطر، عكس النتائج، عدّ عدد النتائج، أو عرض اسم الملف عند وجود تطابق.
+---
+🔗 **[Go directly to Reflective Section](#reflective-section)**
 
-## 🚀 كيفية التشغيل
-أولاً، تأكد أن السكربت قابل للتنفيذ:
+## 🚀 How to Run
+First, ensure the script is executable:
 
 ```bash
 chmod +x mygrep.sh
 ```
 
-ثم يمكنك تشغيله عبر:
+Then run it:
 
 ```bash
-./mygrep.sh [الخيارات] "نص_البحث" اسم_الملف
+./mygrep.sh [options] "search_string" filename
 ```
 
-## ⚙️ الخيارات المدعومة
-تم استخدام `getopts` للتعامل مع الخيارات بطريقة مرنة ومنظمة.
+## ⚙️ Options
+| Option  | Description |
+|---------|-------------|
+| `-n`    | Show line numbers alongside matching lines. |
+| `-v`    | Invert match (show lines that do **NOT** match). |
+| `-c`    | Only count the number of matching lines. |
+| `-l`    | Only print filename if a match is found. |
+| `--help`| Display detailed usage instructions. |
 
-| الخيار | الوصف |
-|:------:|:------|
-| `-n`   | عرض أرقام الأسطر بجانب الأسطر المطابقة. |
-| `-v`   | عكس البحث (عرض الأسطر التي **لا** تحتوي على نص البحث). |
-| `-c`   | عدّ وعرض عدد الأسطر المطابقة فقط. |
-| `-l`   | عرض اسم الملف فقط إذا تم العثور على تطابق. |
-| `--help` | عرض رسالة المساعدة مع تفاصيل الاستخدام. |
+## 📸 Example Usage
 
-## 🧠 نظرة على التنفيذ
-السكربت يعتمد على تقسيم واضح للمهام، حيث يتم التعامل مع كل مرحلة (التحقق من المعطيات، قراءة الملف، معالجة النتائج) بشكل منفصل ومنظم عبر أقسام واضحة داخله.
-
-تم التعامل مع تحليل الخيارات باستخدام `getopts`، مما يسمح بمرونة في تمرير الخيارات المختلفة مع الحفاظ على بساطة الاستخدام.
-
-بعد معالجة الخيارات، يتم نقل الوسائط المتبقية (`shift`) بحيث يمكن التعامل مع نص البحث واسم الملف مباشرة.
-
-أثناء قراءة الملف، يتم فحص كل سطر على حدة لمعرفة إذا ما كان يحتوي على نص البحث (أو لا يحتوي عليه في حالة خيار `-v`)، ويتم اتخاذ الإجراء المناسب بناءً على الخيارات المفعلة (`-n`, `-v`, `-c`, `-l`).
-
-### 🧩 أكثر جزء كان معقد
-أكثر جزء استغرق وقت وجهد كان **التعامل مع `getopts`** وربطه مع باقي أجزاء السكربت بشكل صحيح.  
-كان التحدي الأساسي هو ضمان أن جميع الخيارات تعمل مع بعضها بدون تعارض، وأن يتم تمرير نص البحث واسم الملف بطريقة صحيحة بعد إنهاء قراءة الخيارات.  
-كذلك، كان ربط كل الـ Sections ببعضها، بحيث يتكاملوا مع بعض بسلاسة (من مرحلة استقبال المعطيات إلى مرحلة عرض النتائج)، يحتاج تركيز ودقة في التفاصيل.
-
-## 📸 أمثلة على الاستخدام
-
-🔹 بحث أساسي عن كلمة (بشكل غير حساس لحالة الأحرف):
+Basic search:
 
 ```bash
 ./mygrep.sh hello testfile.txt
 ```
 
-🔹 عرض أرقام الأسطر مع النتائج:
+Search showing line numbers:
 
 ```bash
 ./mygrep.sh -n hello testfile.txt
 ```
 
-🔹 عكس البحث مع عرض أرقام الأسطر:
+Invert match and show line numbers:
 
 ```bash
 ./mygrep.sh -vn hello testfile.txt
 ```
 
-🔹 عكس النتائج فقط:
+Invert match only:
 
 ```bash
 ./mygrep.sh -v hello testfile.txt
 ```
 
-🔹 عدّ عدد الأسطر المطابقة:
+Count number of matches:
 
 ```bash
 ./mygrep.sh -c hello testfile.txt
 ```
 
-🔹 عرض اسم الملف فقط في حال وجود تطابق:
+Print filename if a match found:
 
 ```bash
 ./mygrep.sh -l hello testfile.txt
 ```
 
-🔹 عرض رسالة المساعدة:
+Show help message:
 
 ```bash
 ./mygrep.sh --help
 ```
 
-## 📂 هيكلية الملفات
+**Result Screenshot:**
+
+![Example Result](Screenshot_Of_Outputs.png)
+
+---
+
+## 🧠 Reflective Section
+### Handling Arguments and Options
+The script uses `getopts` for flexible and clean parsing of command-line options. It sets appropriate flags during option parsing and validates arguments afterward. If missing, it shows clear error messages.
+
+### Supporting Extensions
+If regex support or additional options like case-insensitive search (`-i`) were required, the script would need changes inside the `search_in_line` function, perhaps integrating regex tools.
+
+### Most Difficult Part
+The most challenging aspect was handling `getopts` correctly, especially ensuring all the flags interact smoothly and coordinating multiple script sections together.
+
+---
+
+## 📂 Folder Structure
 
 ```
 .
-├── mygrep.sh                # السكربت الرئيسي
-├── testfile.txt              # ملف للاختبار
-├── Screenshot_Of_Outputs.png # لقطات شاشة توضح النتائج
-└── README.md                 # هذا الملف التوثيقي
+├── mygrep.sh                # Main Script
+├── testfile.txt              # File for Testing
+├── Screenshot_Of_Outputs.png # Test Evidence
+├── README.md                 # This Documentation
 ```
 
-## 📢 ملاحظات إضافية
-- البحث يتم بطريقة **غير حساسة لحالة الأحرف**.
-- السكربت يتحقق من صحة المعطيات و يعرض رسائل خطأ مناسبة إذا كان هناك نقص أو خطأ.
-- يحاكي سلوك `grep` القياسي قدر الإمكان مع الحفاظ على البساطة.
+---
 
