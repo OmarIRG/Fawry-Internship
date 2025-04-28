@@ -70,10 +70,16 @@ done
 
 # Crucial part to make it easier after the getopts parse options : shift processed options to get search string and filename 
 # OPTIND here is like counter which counts number of options added with the command in one word and it starts with 1 
-# So if it was 2 then 2 - 1 will be 1 which will shift arguments by one so that the filename will be $1 not $2 anymore so it simplifies the multiple options handling 
-# like -n -v for example OPTIND will be 3 then 3 - 1 will be 2 , 2 shifts will make filename $1 
+# So if it was 2 then 2 - 1 will be 1 which will shift arguments by one so that the search-string will be $1 not $2 or $3  anymore so it simplifies the multiple options handling 
+# like -n -v for example OPTIND will be 3 then 3 - 1 will be 2 , 2 shifts will make search-string $1 and filename $2 
 shift $((OPTIND-1))
 
 
+
+# ─────────────────────────────────────────────────────
+# Section 5: Assign search_string and filename
+# ─────────────────────────────────────────────────────
+search_string="$1"      # as mentioned before after shift the search string will be $1 and filename will be $2
+file="$2"
 
 
