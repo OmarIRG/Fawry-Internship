@@ -35,29 +35,15 @@ Supported options:
 
 ---
 
-## 🛠️ Internally: How `getopts` Works in This Script
+## 🧠 Reflective Section
+- **Handling Arguments and Options**  
+  The script uses **`getopts`** to handle various command-line options like `-n`, `-v`, `-c`, and `-l`. The `getopts` loop parses these options and sets appropriate flags. Once all options are parsed, the script then processes the arguments for the search string and the filename, ensuring proper validation is performed. Invalid or missing arguments prompt an error and display the help message.
 
-The `getopts` command is used inside `mygrep.sh` to parse options easily:
+- **Supporting Regex or `-i/-c/-l` Options**  
+  If I were to extend this script to support **regular expressions (regex)** or the **`-i` (case-insensitive)**, **`-c` (count matches)**, and **`-l` (print filenames)** options, the overall structure would change slightly. Regex would require adding functionality to handle pattern matching beyond simple substring matching, which might involve using tools like `sed` or `grep` for more advanced pattern recognition. For `-i`, we could modify the `search_in_line` function to ignore case sensitivity when comparing strings. The `-c` and `-l` options could be supported by adding counters and conditionals to print counts or filenames when needed.
 
-```bash
-while getopts ":nvcl" opt; do
-  case $opt in
-    n) show_line_number=true ;;
-    v) invert_match=true ;;
-    c) count_only=true ;;
-    l) print_filename=true ;;
-    \?)
-      echo "Invalid option: -$OPTARG"
-      _help
-      exit 1
-      ;;
-  esac
-done
-shift $((OPTIND-1))
-```
-
-- `:` at the start tells `getopts` that options don't take extra arguments.
-- `OPTIND` is automatically managed to shift the input arguments after options.
+- **Most Difficult Part**  
+  The most challenging part of implementing this script was handling **`getopts`**. It's crucial to ensure that each option works as expected in combination with others, and managing the flags for each option can get tricky. Moreover, dealing with shifting arguments correctly and ensuring the script works smoothly when multiple options are provided in various combinations required careful attention to detail.
 
 ---
 
