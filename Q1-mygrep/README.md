@@ -6,7 +6,7 @@ This project is a custom lightweight version of the `grep` command called **mygr
 It allows searching for a string in a file with options such as showing line numbers, inverting matches, counting matches, and displaying filenames.
 
 ---
-🔗 **[Go directly to Reflective Section](#reflective-section)**
+🔗 **[Go directly to Reflective Section](reflective-section)**
 
 ## 🚀 How to Run
 First, ensure the script is executable:
