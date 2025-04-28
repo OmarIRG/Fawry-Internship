@@ -9,7 +9,7 @@
 # Function to show help message
 _help() {
     
-    echo "Usage: $0 [options]"
+    echo "Usage: $0 [options] [filename]"
     echo "--------------------------------------------------------"
     echo "Options:"
     echo "  -n    Show line numbers with matching lines."
@@ -26,4 +26,14 @@ _help() {
 if [[ "$1" == "--help" ]]; then
     _help          # Call help finction
     exit 0	   # Completed successfully (No Error)	
+fi
+
+
+# ─────────────────────────────────────────────────────
+# Section 2: Validate minimum arguments
+# ─────────────────────────────────────────────────────
+if [[ $# -lt 2 ]]; then
+    echo "Error: Missing arguments."
+    _help
+    exit 1
 fi
