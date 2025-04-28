@@ -96,11 +96,10 @@ The most challenging aspect was handling `getopts` correctly, especially ensurin
 
 ```
 .
-├── mygrep.sh                # Main Script
-├── testfile.txt              # File for Testing
-├── Screenshot_Of_Outputs.png # Test Evidence
-├── README.md                 # This Documentation
-```
+├── mygrep.sh                   # Main Script
+├── testfile.txt                # File for Testing
+├── Screenshot_Of_Outputs.png   # Test Evidence
+├── README.md                   # This Documentation
 
 ---
 
