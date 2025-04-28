@@ -171,3 +171,20 @@ while IFS= read -r line; do
     fi
 
 done < "$file"
+
+
+# ─────────────────────────────────────────────────────
+# Section 10: After reading the file - handle special options
+# ─────────────────────────────────────────────────────
+if $count_only; then
+    echo "$match_count"
+fi
+
+if $print_filename && $found_match; then
+    echo "$file"
+fi
+
+# If -l option is active and at least one match found, print filename
+if $print_filename && $found_match; then
+    echo "$file"
+fi
