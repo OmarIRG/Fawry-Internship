@@ -6,7 +6,7 @@ This project is a custom lightweight version of the `grep` command called **mygr
 It allows searching for a string in a file with options such as showing line numbers, inverting matches, counting matches, and displaying filenames.
 
 ---
-🔗 **[Go directly to Reflective Section](### Handling Arguments and Options)**
+🔗 **[Go directly to Reflective Section](#reflective-section-with-brain)**
 
 ## 🚀 How to Run
 First, ensure the script is executable:
@@ -80,7 +80,7 @@ Show help message:
 
 ---
 
-## 🧠 Reflective Section
+## 🧠 Reflective Section {#reflective-section-with-brain}
 ### Handling Arguments and Options
 The script uses `getopts` for flexible and clean parsing of command-line options. It sets appropriate flags during option parsing and validates arguments afterward. If missing, it shows clear error messages.
 
