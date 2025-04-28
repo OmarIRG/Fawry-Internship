@@ -155,6 +155,14 @@ process_matched_line() {
 # ─────────────────────────────────────────────────────
 # Section 9: Read file line by line and process
 # ─────────────────────────────────────────────────────
+# Here, we start reading the input file line by line.
+# For each line:
+#   - Increment the line number counter.
+#   - Check if the line matches the search string (case-insensitive).
+#   - If the -v option is active, invert the match logic.
+#   - If the line matches (after considering inversion), process the line 
+#     according to the selected options (-n, -c, -l).
+# ─────────────────────────────────────────────────────
 while IFS= read -r line; do
     increment_line_number
 
@@ -173,15 +181,17 @@ while IFS= read -r line; do
 done < "$file"
 
 
+
 # ─────────────────────────────────────────────────────
 # Section 10: After reading the file - handle special options
 # ─────────────────────────────────────────────────────
+# After finishing reading the file:
+#   - If the -c (count only) option is active, print the total number of matches.
+#   - If the -l (print filename) option is active and at least one match was found, print the filename.
+#   - These are final output steps depending on the selected options.
+# ─────────────────────────────────────────────────────
 if $count_only; then
     echo "$match_count"
-fi
-
-if $print_filename && $found_match; then
-    echo "$file"
 fi
 
 # If -l option is active and at least one match found, print filename
