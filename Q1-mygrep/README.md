@@ -1,5 +1,5 @@
 
-# MyGrep - Mini grep Implementation
+# MyGrep - Mini grep Implementation With Getopts
 
 📄 **Overview**  
 This project is a custom lightweight version of the `grep` command called **mygrep.sh**.  
