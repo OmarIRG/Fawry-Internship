@@ -1,97 +1,61 @@
+# 🚀 Fawry Internship Task Solutions
 
-# 🛠️ MyGrep - Mini Grep Command
+> **Note:**  
+> Each question's solution is organized inside its own folder.
 
-## 📄 Description
-
-**MyGrep** (`mygrep.sh`) is a Bash script that simulates a mini version of the `grep` command.  
-It allows you to search for a string inside a text file with options such as:
-
-- Case-insensitive search
-- Display line numbers (`-n`)
-- Invert match (show non-matching lines) (`-v`)
-- Count matching lines only (`-c`)
-- Print filename if a match is found (`-l`)
-
-Built with Bash and includes robust error handling.
+Hello! 👋  
+This repository contains my solutions for the two technical tasks provided during the Fawry Internship application.  
+I approached each problem carefully, focusing on clean scripting, clear troubleshooting steps, and thorough validation.
 
 ---
 
-## 🚀 How to Run
+## 📄 Q1: Custom Command - `mygrep.sh`
 
-1. **Make the script executable:**
+In this task, I built a **mini version of the `grep` command** using Bash scripting.  
+The script `mygrep.sh` supports:
 
-```bash
-chmod +x mygrep.sh
-```
+- Searching for a string (case-insensitive).
+- Printing matching lines from a text file.
+- Showing line numbers with the `-n` option.
+- Inverting matches (show non-matching lines) with the `-v` option.
+- Supporting combinations like `-vn` or `-nv`.
 
-2. **Run the script:**
+✅ I also handled error cases like missing arguments or invalid files, and tested the script with a sample `testfile.txt`.  
+You'll find inside the folder:
 
-General syntax:
-
-```bash
-./mygrep.sh [OPTIONS] SEARCH_STRING FILE
-```
-
-### Examples
-
-| Command | Description |
-|:--------|:------------|
-| `./mygrep.sh hello testfile.txt` | Search for "hello" in the file |
-| `./mygrep.sh -n hello testfile.txt` | Search and show line numbers |
-| `./mygrep.sh -v hello testfile.txt` | Show lines that do NOT contain "hello" |
-| `./mygrep.sh -vn hello testfile.txt` | Invert match and show line numbers |
-| `./mygrep.sh --help` | Show help message |
+- The `mygrep.sh` script (executable).
+- `testfile.txt` for testing.
+- Screenshots showing the script in action.
+- A reflection section where I discuss how the script processes arguments, challenges I faced, and how I would expand it to support more features like regex.
 
 ---
 
-## ⚙️ Available Options
+## 📄 Q2: Troubleshooting Scenario - `internal.example.com`
 
-| Option | Description |
-|:-------|:------------|
-| `-n` | Display line numbers with matching lines |
-| `-v` | Invert the match (show non-matching lines) |
-| `-c` | Display only the count of matching lines |
-| `-l` | Display only the filename if a match is found |
-| `--help` | Show the usage guide |
+This task focused on **troubleshooting a DNS and service reachability problem**.  
+I worked through a real-world scenario where an internal dashboard (`internal.example.com`) became unreachable.
 
----
+The steps I followed:
 
-## 🧪 Test File Content
+1. **DNS Resolution Testing**: Checked local DNS settings and compared them with public DNS (Google 8.8.8.8).
+2. **Service Reachability**: Used tools like `curl`, `ping`, `telnet`, and `ss` to check the service.
+3. **Problem Root Cause Analysis**: Listed all possible reasons behind the issue (DNS misconfigurations, firewall rules, service downtime, etc.).
+4. **Fixes and Verification**: For each potential cause, I explained how to confirm it and how to fix it using Linux commands.
 
-Testing was performed with `testfile.txt` containing:
-
-```
-Hello world
-This is a test
-another test line
-HELLO AGAIN
-Don't match this line
-Testing one two three
-```
+✅ The folder includes full troubleshooting steps, Linux commands, screenshots of the process, and bonus parts like bypassing DNS temporarily using `/etc/hosts`.
 
 ---
 
-## 📸 Screenshots of Execution
+## 📸 Screenshots
 
-- `./mygrep.sh hello testfile.txt`
-- `./mygrep.sh -n hello testfile.txt`
-- `./mygrep.sh -vn hello testfile.txt`
-- `./mygrep.sh -v testfile.txt` (expected error if search string missing)
-
-*(Screenshots attached in `Screenshot_Of_Outputs.png`)*
+Throughout both tasks, I made sure to capture my terminal outputs at every important step to clearly demonstrate and validate my solutions.
 
 ---
 
-## ⚡ Error Handling
+## ✅ Final Notes
 
-- Error if file is missing.
-- Error if search string or file name is missing.
-- Graceful handling of invalid options.
+I enjoyed working on these tasks as they combine practical Linux skills with problem-solving, which are essential in real-world DevOps and system administration roles.  
+Thanks for reviewing my work!
 
 ---
-
-## 👤 Author
-
-- **Name:** Omar Islam Ragab
-- **LinkedIn:** [omar-islam-rgb](https://www.linkedin.com/in/omar-islam-rgb)
 
