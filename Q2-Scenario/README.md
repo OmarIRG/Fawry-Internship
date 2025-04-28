@@ -1,7 +1,5 @@
 # 🛠️ Troubleshooting DNS and Service Connectivity for `internal.example.com`
 
-When I faced an issue accessing the internal web dashboard at `internal.example.com`, I followed a structured approach to diagnose and fix the problem systematically. Here's exactly what I did, with explanations for why each step was important.
-
 ---
 
 ## 1. Verify DNS Resolution
