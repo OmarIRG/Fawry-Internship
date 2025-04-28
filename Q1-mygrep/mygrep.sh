@@ -101,4 +101,52 @@ fi
 
 
 
+# ─────────────────────────────────────────────────────
+# Section 7: Initialize counters and status flags
+# ─────────────────────────────────────────────────────
+line_number=0         # Keep track of current line number
+match_count=0         # Count number of matches (for -c option)
+found_match=false     # Track if any match found (for -l option)
 
+
+
+# ─────────────────────────────────────────────────────
+# Section 8: Define helper functions
+# ─────────────────────────────────────────────────────
+
+increment_line_number() {
+    ((line_number++))
+}
+
+search_in_line() {
+    # Make both line and search_string lowercase and compare manually
+    local lower_line=$(echo "$line" | tr 'A-Z' 'a-z')
+    local lower_search=$(echo "$search_string" | tr 'A-Z' 'a-z')
+
+    [[ "$lower_line" == *"$lower_search"* ]]
+}
+
+invert_match_logic() {
+    if $invert_match; then
+        if $match; then
+            match=false
+        else
+            match=true
+        fi
+    fi
+}
+
+process_matched_line() {
+    found_match=true
+    ((match_count++))
+
+    if $count_only || $print_filename; then
+        return
+    fi
+
+    if $show_line_number; then
+        echo "${line_number}:$line"
+    else
+        echo "$line"
+    fi
+}
