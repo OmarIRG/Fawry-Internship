@@ -83,3 +83,22 @@ search_string="$1"      # as mentioned before after shift the search string will
 file="$2"
 
 
+
+# ─────────────────────────────────────────────────────
+# Section 6: Validate inputs
+# ─────────────────────────────────────────────────────
+if [[ -z "$search_string" || -z "$file" ]]; then                     # Both seach-string and filename must be provided as options in while using the command
+    echo "Error: Search string and file must be provided."
+    show_help
+    exit 1
+fi
+
+if [[ ! -f "$file" ]]; then                                          # If the user provided the filename but the file doesn't exist
+    echo "Error: File '$file' does not exist."
+    exit 1
+fi
+
+
+
+
+
