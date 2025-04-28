@@ -37,3 +37,32 @@ if [[ $# -lt 2 ]]; then
     _help
     exit 1
 fi
+
+
+# ─────────────────────────────────────────────────────
+# Section 3: Initialize flags for options
+# ─────────────────────────────────────────────────────
+show_line_number=false  # To track if -n option is used
+invert_match=false      # To track if -v option is used
+count_only=false        # To track if -c option is used
+print_filename=false    # To track if -l option is used
+
+
+
+# ─────────────────────────────────────────────────────
+# Section 4: Parse options using getopts
+# ─────────────────────────────────────────────────────
+while getopts ":nvcl" opt; do
+  case $opt in
+    n) show_line_number=true ;;  # If -n option found, set flag true
+    v) invert_match=true ;;      # If -v option found, set flag true
+    c) count_only=true ;;        # If -c option found, set flag true
+    l) print_filename=true ;;    # If -l option found, set flag true
+    \?)
+      # Handle invalid option
+      echo "Invalid option: -$OPTARG"
+      show_help
+      exit 1
+      ;;
+  esac
+done
