@@ -1,97 +1,120 @@
 
-# 🛠️ MyGrep - Mini Grep Command
+# MyGrep - Mini grep Implementation
 
-## 📄 Description
-
-**MyGrep** (`mygrep.sh`) is a Bash script that simulates a mini version of the `grep` command.  
-It allows you to search for a string inside a text file with options such as:
-
-- Case-insensitive search
-- Display line numbers (`-n`)
-- Invert match (show non-matching lines) (`-v`)
-- Count matching lines only (`-c`)
-- Print filename if a match is found (`-l`)
-
-Built with Bash and includes robust error handling.
+## 📄 Overview
+This project is a custom implementation of the basic `grep` command called **`mygrep.sh`**.  
+It supports searching for a string in a file with useful options like showing line numbers, inverting matches, counting matches, and displaying filenames.
 
 ---
 
 ## 🚀 How to Run
 
-1. **Make the script executable:**
-
+First, make sure the script is executable:
 ```bash
 chmod +x mygrep.sh
 ```
 
-2. **Run the script:**
+Then run it using:
+```bash
+./mygrep.sh [options] "search_string" filename
+```
 
-General syntax:
+---
+
+## ⚙️ Options (Using `getopts`)
+The script uses **`getopts`** to handle command-line options cleanly and flexibly.
+
+Supported options:
+| Option | Description |
+|:------:|:------------|
+| `-n`   | Show line numbers alongside matching lines. |
+| `-v`   | Invert the match (show lines **that do NOT match** the search string). |
+| `-c`   | Count the number of matching lines and display the count only. |
+| `-l`   | Print the filename if at least one match is found. |
+| `--help` | Display a detailed help message showing usage information. |
+
+---
+
+## 🛠️ Internally: How `getopts` Works in This Script
+
+The `getopts` command is used inside `mygrep.sh` to parse options easily:
 
 ```bash
-./mygrep.sh [OPTIONS] SEARCH_STRING FILE
+while getopts ":nvcl" opt; do
+  case $opt in
+    n) show_line_number=true ;;
+    v) invert_match=true ;;
+    c) count_only=true ;;
+    l) print_filename=true ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      _help
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND-1))
 ```
 
-### Examples
-
-| Command | Description |
-|:--------|:------------|
-| `./mygrep.sh hello testfile.txt` | Search for "hello" in the file |
-| `./mygrep.sh -n hello testfile.txt` | Search and show line numbers |
-| `./mygrep.sh -v hello testfile.txt` | Show lines that do NOT contain "hello" |
-| `./mygrep.sh -vn hello testfile.txt` | Invert match and show line numbers |
-| `./mygrep.sh --help` | Show help message |
+- `:` at the start tells `getopts` that options don't take extra arguments.
+- `OPTIND` is automatically managed to shift the input arguments after options.
 
 ---
 
-## ⚙️ Available Options
+## 📸 Example Usage
 
-| Option | Description |
-|:-------|:------------|
-| `-n` | Display line numbers with matching lines |
-| `-v` | Invert the match (show non-matching lines) |
-| `-c` | Display only the count of matching lines |
-| `-l` | Display only the filename if a match is found |
-| `--help` | Show the usage guide |
-
----
-
-## 🧪 Test File Content
-
-Testing was performed with `testfile.txt` containing:
-
-```
-Hello world
-This is a test
-another test line
-HELLO AGAIN
-Don't match this line
-Testing one two three
+🔹 Basic search (case-insensitive):
+```bash
+./mygrep.sh hello testfile.txt
 ```
 
+🔹 Show line numbers with matches:
+```bash
+./mygrep.sh -n hello testfile.txt
+```
+
+🔹 Invert match and show line numbers:
+```bash
+./mygrep.sh -vn hello testfile.txt
+# OR
+./mygrep.sh -nv hello testfile.txt
+```
+
+🔹 Invert match only:
+```bash
+./mygrep.sh -v hello testfile.txt
+```
+
+🔹 Count number of matches:
+```bash
+./mygrep.sh -c hello testfile.txt
+```
+
+🔹 Print only filename if matches found:
+```bash
+./mygrep.sh -l hello testfile.txt
+```
+
+🔹 Show help message:
+```bash
+./mygrep.sh --help
+```
+
 ---
 
-## 📸 Screenshots of Execution
-
-- `./mygrep.sh hello testfile.txt`
-- `./mygrep.sh -n hello testfile.txt`
-- `./mygrep.sh -vn hello testfile.txt`
-- `./mygrep.sh -v testfile.txt` (expected error if search string missing)
-
-*(Screenshots attached in `Screenshot_Of_Outputs.png`)*
-
----
-
-## ⚡ Error Handling
-
-- Error if file is missing.
-- Error if search string or file name is missing.
-- Graceful handling of invalid options.
+## 📂 Folder Structure
+```
+.
+├── mygrep.sh                # Main Script
+├── testfile.txt              # File for Testing
+├── Screenshot_Of_Outputs.png # Test Evidence
+└── README.md                 # This Documentation
+```
 
 ---
 
-## 👤 Author
-
-- **Name:** Omar Islam Ragab
-- **LinkedIn:** [omar-islam-rgb](https://www.linkedin.com/in/omar-islam-rgb)
+## 📢 Notes
+- The search is **case-insensitive**.
+- The script validates arguments and shows proper errors if something is missing.
+- The output mimics standard `grep` behavior as much as possible.
 
