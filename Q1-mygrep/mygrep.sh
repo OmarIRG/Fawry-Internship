@@ -150,3 +150,24 @@ process_matched_line() {
         echo "$line"
     fi
 }
+
+
+# ─────────────────────────────────────────────────────
+# Section 9: Read file line by line and process
+# ─────────────────────────────────────────────────────
+while IFS= read -r line; do
+    increment_line_number
+
+    if search_in_line; then
+        match=true
+    else
+        match=false
+    fi
+
+    invert_match_logic
+
+    if $match; then
+        process_matched_line
+    fi
+
+done < "$file"
