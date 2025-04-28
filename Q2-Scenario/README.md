@@ -1,146 +1,72 @@
-# Troubleshooting DNS and Service Connectivity
+# 🛠️ Troubleshooting DNS and Service Connectivity for `internal.example.com`
 
-## Introduction
+---
 
-This document outlines the steps taken to troubleshoot DNS and service connectivity issues on a Linux system. The goal is to resolve the issue where the internal web dashboard hosted at `internal.example.com` is unreachable due to DNS resolution problems or misconfigured services.
+## 1. Verify DNS Resolution
 
-## Steps to Troubleshoot the Issue
+### Step 1A: Check the default DNS server
+```bash
+cat /etc/resolv.conf
+```
+📸 **Screenshot:**  
+![Know DNS Server](./1%20Know%20DNS%20Server.png)
 
-### 1. Verify DNS Resolution
-
-To check if the DNS is resolving properly, we can use the `dig` command to resolve the domain `internal.example.com`.
-
-#### Command:
+### Step 1B: Test DNS resolution with default DNS
 ```bash
 dig internal.example.com
 ```
+📸 **Screenshot:**  
+![Check The IP Of The DNS Name](./2%20Check%20The%20Ip%20Of%20The%20DNS%20Name.png)
 
-#### Expected Output:
-The output should show the DNS resolution result, such as an IP address. If you receive a `NXDOMAIN` status, it indicates that the domain does not exist in the current DNS.
-
-Example Output:
-```
-; <<>> DiG 9.18.30-0ubuntu0.22.04.2-Ubuntu <<>> internal.example.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 33386
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-```
-
-If DNS resolution fails, we can compare it with Google's DNS (8.8.8.8) by using:
+### Step 1C: Test resolution with Google's 8.8.8.8
 ```bash
 dig @8.8.8.8 internal.example.com
 ```
+📸 **Screenshot:**  
+![Checking 8.8.8.8 DNS Server For The IP](./3%20Checking%208.8.8.8%20DNS%20Server%20For%20The%20IP.png)
 
-### 2. Verify Service Reachability
+## 2. Diagnose Service Reachability
 
-To check if the service (web service) is running on the server, use the `ss` command to check the ports 80 (HTTP) and 443 (HTTPS).
-
-#### Command:
+### Step 2A: Test with `curl`
 ```bash
-sudo ss -tuln | grep -E '(:80|:443)'
+curl -v http://internal.example.com
 ```
+📸 **Screenshot:**  
+![Testing Curl Command](./4%20Testing%20Curl%20Command.png)
 
-If there is no output, the service may not be running.
+## 3. Bypass DNS Temporarily
 
-You can also check running services using:
-
+### Step 3A: Add manual IP mapping
 ```bash
-ps aux | grep apache2
-ps aux | grep nginx
+sudo nano /etc/hosts
 ```
+Add:
+```
+192.168.x.x internal.example.com
+```
+📸 **Screenshot:**  
+![Bypassing the DNS By Adding The IP Manually](./5%20bypassing%20the%20DNS%20By%20Adding%20The%20Ip%20Manually.png)
 
-Or monitor real-time processes with:
-
+### Step 3B: Test After Manual IP Addition
 ```bash
-top
+ping internal.example.com
+curl http://internal.example.com
 ```
+📸 **Screenshot:**  
+![After Adding The IP Manually](./6%20After%20Adding%20The%20Ip%20Manually.png)
 
-Check the service status using `systemctl`:
-
-```bash
-sudo systemctl status apache2
-sudo systemctl status nginx
-```
-
-If the service is not running, start it with:
-
-```bash
-sudo systemctl start apache2
-sudo systemctl start nginx
-```
-
-### 3. Check DNS Settings Using `resolvectl`
-
-Inspect the current DNS settings:
+## 4. Verify DNS Settings with `resolvectl`
 
 ```bash
 resolvectl status
 ```
+📸 **Screenshot:**  
+![DNS Status](./7%20DNS%20Status.png)
 
-Example output shows the DNS server(s) in use. If your internal domain is not resolvable, this might indicate misconfiguration.
+---
 
-### 4. Modify `/etc/hosts` for Testing
+# ✅ Conclusion
 
-If DNS resolution fails, you can manually map the domain to an IP address.
+By following this method, we identify if the issue lies within DNS configuration, the web server, or the network, ensuring successful access to `internal.example.com`.
 
-Edit the hosts file:
-
-```bash
-sudo nano /etc/hosts
-```
-
-Add the line:
-
-```
-192.168.x.x internal.example.com
-```
-
-Replace `192.168.x.x` with the actual server IP.
-
-Save and exit the editor, then test the connection again:
-
-```bash
-curl http://internal.example.com
-```
-
-### 5. Checking Firewall and Network Settings
-
-Check if the firewall is blocking traffic:
-
-```bash
-sudo ufw status
-```
-
-If needed, allow HTTP and HTTPS ports:
-
-```bash
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-```
-
-### 6. Testing and Verification
-
-After applying the fixes:
-
-- Verify DNS again:
-```bash
-dig internal.example.com
-```
-- Verify service accessibility:
-```bash
-curl http://internal.example.com
-ping internal.example.com
-```
-
-### Screenshots to Capture
-
-- Output of `dig internal.example.com`
-- Output of `ss -tuln | grep -E '(:80|:443)'`
-- Editing `/etc/hosts`
-- Checking service status with `systemctl`
-
-## Conclusion
-
-Following this guide helps identify whether the issue lies in DNS resolution, web service availability, or network configuration, ensuring that `internal.example.com` becomes accessible again.
 
